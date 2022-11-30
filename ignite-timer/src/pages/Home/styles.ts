@@ -26,6 +26,13 @@ export const FormContainer = styled.div`
     font-weight: bold;
     flex-wrap: wrap;
 `;
+const BaseInput = styled.input`
+background: transparent;
+`
+export const TaskInput = styled(BaseInput)`
+`;
+export const MinutesAmount = styled(BaseInput) `
+`;
 export const CountdownContainer = styled.div`
     font-family: 'Roboto Mono',monospace;
     font-size: 10rem;
@@ -63,8 +70,11 @@ font-weight: bold;
 cursor: pointer;
 background-color: ${props=>props.theme['green-500']};
 color: ${(props)=>props.theme['gray-100']};
-
-&:hover{
+&:disabled{
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+&:not(:disabled):hover{
     background-color: ${(props)=>props.theme['green-700']};
 }
 `;
