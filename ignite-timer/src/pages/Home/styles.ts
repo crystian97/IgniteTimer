@@ -28,10 +28,18 @@ export const FormContainer = styled.div`
 `;
 const BaseInput = styled.input`
 background: transparent;
-`
+border-bottom: 2px solid ${(props)=>props.theme['gray-500']};
+font-weight: bold;
+font-size:1.125rem;
+padding: 0 0.5rem;
+color:${(props) =>props.theme['gray-100']};
+
+`;
 export const TaskInput = styled(BaseInput)`
+    flex:1;
 `;
 export const MinutesAmount = styled(BaseInput) `
+width: 4rem;
 `;
 export const CountdownContainer = styled.div`
     font-family: 'Roboto Mono',monospace;
