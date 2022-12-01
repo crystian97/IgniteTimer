@@ -19,5 +19,6 @@ export const GlobalStyle= createGlobalStyle`
         font-family: 'Roboto',sans-serif;
         font-weight: bold;
         font-size: 1rem;
+        -webkit-font-smoothing:antialiesed;
     }
 `;
