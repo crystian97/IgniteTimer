@@ -25,7 +25,12 @@ export function Home() {
     }
   });
   function handleCreateNewCycle(data:NewCycleFormData){
-    console.log(data)
+    const newCycle:Cycle={
+      id:String(new Date().getTime()),
+      task:data.task,
+      minutesAmount:data.minutesAmount
+    }
+    setCycles((state)=>[...state,newCycle])
     reset()
   }
   const task = watch('task')
