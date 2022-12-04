@@ -1,5 +1,5 @@
-import{Play} from 'phosphor-react';
 import { useState } from 'react';
+import{Play} from 'phosphor-react';
 import {useForm} from 'react-hook-form'
 import {zodResolver} from '@hookform/resolvers/zod';
 import * as zod from 'zod';
@@ -10,7 +10,13 @@ const newCycleValidationSchema=zod.object({
 })
 
 type NewCycleFormData = zod.infer<typeof newCycleValidationSchema>
+interface Cycle{
+  id:string
+  task:string
+  minutesAmount:number
+}
 export function Home() {
+  const [cycles,setCycles] = useState<Cycle[]>([])
   const{register,handleSubmit,watch,reset} = useForm<NewCycleFormData>({
     resolver:zodResolver(newCycleValidationSchema),
     defaultValues:{
