@@ -6,16 +6,15 @@ import * as zod from 'zod';
 import { CountdownContainer, FormContainer, HomeContainer, MinutesAmount, Separator, StartCountDownButton, TaskInput } from './styles';
 const newCycleValidationSchema=zod.object({
   task:zod.string().min(1,'Informe a tarefa'),
-  minutesAmout:zod.number().min(5).max(60)
+  minutesAmout:zod.number().min(5,'O ciclo precisa ser de no mínimo 5 minutos').max(60, 'o ciclo precisa ser no máximo 60 minutos')
 })
 export function Home() {
-  const{register,handleSubmit,watch,formState} = useForm({
+  const{register,handleSubmit,watch} = useForm({
     resolver:zodResolver(newCycleValidationSchema),
   });
   function handleCreateNewCycle(data:any){
     console.log(data)
   }
-  console.log(formState.errors)
   const task = watch('task')
   const isSubmitDisabled = !task
   
