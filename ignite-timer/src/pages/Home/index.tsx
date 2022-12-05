@@ -26,7 +26,7 @@ export function Home() {
     }
   });
   function handleCreateNewCycle(data:NewCycleFormData){
-    const id=String(new Date().getTime()),
+    const id=String(new Date().getTime())
     const newCycle:Cycle={
       id,
       task:data.task,
@@ -36,6 +36,8 @@ export function Home() {
     setActiveCycleId(id)
     reset()
   }
+  const activeCycle=cycles.find((cycle)=>cycle.id=== activeCycleId)
+  console.log(activeCycle)
   const task = watch('task')
   const isSubmitDisabled = !task
   
@@ -45,13 +47,14 @@ return(
       <FormContainer>
       <label htmlFor="task">Vou trabalhar em</label>
       <TaskInput 
+        list='listTask'
         type="text" 
         id="task" 
         placeholder='Dê um nome para seu projeto'
         {...register('task')}
 
       />
-      <datalist>
+      <datalist id='listTask'>
         <option value="projeto 1"/>
         <option value="projeto 2"/>
         <option value="projeto 3"/>
@@ -66,7 +69,7 @@ return(
             placeholder='00' 
             step={5}
             min={5}
-            // max={60}
+            max={60}
             {...register('minutesAmount',{
               valueAsNumber:true
             })}
