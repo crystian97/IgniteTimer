@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import{Play} from 'phosphor-react';
+import{HandPalm, Play} from 'phosphor-react';
 import {useForm} from 'react-hook-form'
 import {zodResolver} from '@hookform/resolvers/zod';
 import { differenceInSeconds } from 'date-fns';
 import * as zod from 'zod';
-import { CountdownContainer, FormContainer, HomeContainer, MinutesAmount, Separator, StartCountDownButton, TaskInput } from './styles';
+import { CountdownContainer, FormContainer, HomeContainer, MinutesAmount, Separator, StartCountDownButton, StopCountDownButton, TaskInput } from './styles';
 const newCycleValidationSchema=zod.object({
   task:zod.string().min(1,'Informe a tarefa'),
   minutesAmount:zod.number().min(5,'O ciclo precisa ser de no mínimo 5 minutos').max(60, 'o ciclo precisa ser no máximo 60 minutos'),
@@ -110,8 +110,12 @@ return(
         <span>{seconds[0]}</span>
         <span>{seconds[1]}</span>
       </CountdownContainer>
-
+      {activeCycle?(
+        <StopCountDownButton  type="button"><HandPalm/> Começar</StopCountDownButton>
+      ):(
       <StartCountDownButton disabled={isSubmitDisabled} type="submit"><Play/> Começar</StartCountDownButton>
+
+      )}
     </form>
   </HomeContainer>
 )
