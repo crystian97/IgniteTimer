@@ -7,7 +7,7 @@ import * as zod from 'zod';
 import { CountdownContainer, FormContainer, HomeContainer, MinutesAmount, Separator, StartCountDownButton, StopCountDownButton, TaskInput } from './styles';
 const newCycleValidationSchema=zod.object({
   task:zod.string().min(1,'Informe a tarefa'),
-  minutesAmount:zod.number().min(5,'O ciclo precisa ser de no mínimo 5 minutos').max(60, 'o ciclo precisa ser no máximo 60 minutos'),
+  minutesAmount:zod.number().min(1,'O ciclo precisa ser de no mínimo 5 minutos').max(60, 'o ciclo precisa ser no máximo 60 minutos'),
 })
 
 type NewCycleFormData = zod.infer<typeof newCycleValidationSchema>
@@ -17,6 +17,7 @@ interface Cycle{
   minutesAmount:number
   startDate:Date
   interruptDate?:Date
+  finishedDate?:Date
 }
 export function Home() {
   const [cycles,setCycles] = useState<Cycle[]>([])
@@ -45,7 +46,7 @@ export function Home() {
   }
   function handleInterruptCycle(){
     setCycles(
-      cycles.map((cycle)=>{
+      (state)=> state.map((cycle)=>{
         if(cycle.id===activeCycleId){
           return {...cycle,interruptDate:new Date()}
         }else{
@@ -63,24 +64,42 @@ export function Home() {
   const secondsAmount = currentSeconds %60
   const minutes = String(minutesAmount).padStart(2,'0')
   const  seconds = String(secondsAmount).padStart(2,'0')
+
   useEffect(()=>{
     if(activeCycle)
       document.title= `${minutes}:${seconds}`
   },[minutes,seconds,activeCycle])
+
   const task = watch('task')
   const isSubmitDisabled = !task
   useEffect(()=>{
     let interval:number
     if(activeCycle){
       interval=setInterval(()=>{
-        setAmountSecondsPassed(differenceInSeconds(new Date(),activeCycle.startDate))
+        const secondsDifference = differenceInSeconds(new Date(),activeCycle.startDate)
+        if(secondsDifference>= totalSeconds){
+          setCycles(
+            (state)=> state.map((cycle)=>{
+              if(cycle.id===activeCycleId){
+                return {...cycle,finishedDate:new Date()}
+              }else{
+                return cycle
+              }
+            }),
+          )
+          setAmountSecondsPassed(totalSeconds)
+
+          clearInterval(interval)
+        }else{
+          setAmountSecondsPassed(secondsDifference)
+        }
       },1000)
     }
     return ()=>{
       clearInterval(interval)
     }
-  },[activeCycle])
-  console.log(cycles)
+  },[activeCycle,totalSeconds,activeCycleId])
+  
 return(
   <HomeContainer>
     <form onSubmit={handleSubmit(handleCreateNewCycle)} action="">
@@ -108,7 +127,7 @@ return(
             id="minutesAmount" 
             placeholder='00' 
             step={5}
-            min={5}
+            min={1}
             max={60}
             {...register('minutesAmount',{
               valueAsNumber:true
