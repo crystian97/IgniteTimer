@@ -16,6 +16,7 @@ interface Cycle{
   task:string
   minutesAmount:number
   startDate:Date
+  interruptDate?:Date
 }
 export function Home() {
   const [cycles,setCycles] = useState<Cycle[]>([])
@@ -42,6 +43,19 @@ export function Home() {
     setAmountSecondsPassed(0)
     reset()
   }
+  function handleInterruptCycle(){
+    setCycles(
+      cycles.map((cycle)=>{
+        if(cycle.id===activeCycleId){
+          return {...cycle,interruptDate:new Date()}
+        }else{
+          return cycle
+        }
+      }),
+    )
+    setActiveCycleId(null)
+
+  }
   const activeCycle=cycles.find((cycle)=>cycle.id=== activeCycleId)
   const totalSeconds = activeCycle? activeCycle.minutesAmount *60:0
   const currentSeconds = activeCycle? totalSeconds - amountSecondsPassed:0
@@ -66,6 +80,7 @@ export function Home() {
       clearInterval(interval)
     }
   },[activeCycle])
+  console.log(cycles)
 return(
   <HomeContainer>
     <form onSubmit={handleSubmit(handleCreateNewCycle)} action="">
@@ -85,7 +100,6 @@ return(
         <option value="projeto 2"/>
         <option value="projeto 3"/>
         <option value="Banana"/>
-
       </datalist>
 
       <label htmlFor="minutesAmout">durante</label>
@@ -100,7 +114,6 @@ return(
               valueAsNumber:true
             })}
             disabled={!!activeCycle}
-
         />
 
       <span>minutos.</span>
@@ -114,7 +127,7 @@ return(
         <span>{seconds[1]}</span>
       </CountdownContainer>
       {activeCycle?(
-        <StopCountDownButton  type="button"><HandPalm/> Começar</StopCountDownButton>
+        <StopCountDownButton onClick={handleInterruptCycle} type="button"><HandPalm/> Interromper</StopCountDownButton>
       ):(
       <StartCountDownButton disabled={isSubmitDisabled} type="submit"><Play/> Começar</StartCountDownButton>
 
