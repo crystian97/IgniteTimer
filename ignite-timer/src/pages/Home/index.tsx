@@ -5,6 +5,8 @@ import {zodResolver} from '@hookform/resolvers/zod';
 import { differenceInSeconds } from 'date-fns';
 import * as zod from 'zod';
 import { CountdownContainer, FormContainer, HomeContainer, MinutesAmount, Separator, StartCountDownButton, StopCountDownButton, TaskInput } from './styles';
+import { NewCycleForm } from './components/NewCycleForm';
+import { Countdown } from './Countdown';
 const newCycleValidationSchema=zod.object({
   task:zod.string().min(1,'Informe a tarefa'),
   minutesAmount:zod.number().min(1,'O ciclo precisa ser de no mínimo 5 minutos').max(60, 'o ciclo precisa ser no máximo 60 minutos'),
@@ -103,48 +105,9 @@ export function Home() {
 return(
   <HomeContainer>
     <form onSubmit={handleSubmit(handleCreateNewCycle)} action="">
-      <FormContainer>
-      <label htmlFor="task">Vou trabalhar em</label>
-      <TaskInput 
-        list='listTask'
-        type="text" 
-        id="task" 
-        disabled={!!activeCycle}
-        placeholder='Dê um nome para seu projeto'
-        {...register('task')}
+      <NewCycleForm/>
+      <Countdown/>
 
-      />
-      <datalist id='listTask'>
-        <option value="projeto 1"/>
-        <option value="projeto 2"/>
-        <option value="projeto 3"/>
-        <option value="Banana"/>
-      </datalist>
-
-      <label htmlFor="minutesAmout">durante</label>
-      <MinutesAmount 
-            type="number" 
-            id="minutesAmount" 
-            placeholder='00' 
-            step={5}
-            min={1}
-            max={60}
-            {...register('minutesAmount',{
-              valueAsNumber:true
-            })}
-            disabled={!!activeCycle}
-        />
-
-      <span>minutos.</span>
-      </FormContainer>
-
-      <CountdownContainer>
-        <span>{minutes[0]}</span>
-        <span>{minutes[1]}</span>
-        <Separator>:</Separator>
-        <span>{seconds[0]}</span>
-        <span>{seconds[1]}</span>
-      </CountdownContainer>
       {activeCycle?(
         <StopCountDownButton onClick={handleInterruptCycle} type="button"><HandPalm/> Interromper</StopCountDownButton>
       ):(
