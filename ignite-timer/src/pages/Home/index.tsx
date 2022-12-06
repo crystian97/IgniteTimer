@@ -39,6 +39,7 @@ export function Home() {
     }
     setCycles((state)=>[...state,newCycle])
     setActiveCycleId(id)
+    setAmountSecondsPassed(0)
     reset()
   }
   const activeCycle=cycles.find((cycle)=>cycle.id=== activeCycleId)
