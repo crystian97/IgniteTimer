@@ -75,6 +75,7 @@ return(
         list='listTask'
         type="text" 
         id="task" 
+        disabled={!!activeCycle}
         placeholder='Dê um nome para seu projeto'
         {...register('task')}
 
@@ -98,6 +99,8 @@ return(
             {...register('minutesAmount',{
               valueAsNumber:true
             })}
+            disabled={!!activeCycle}
+
         />
 
       <span>minutos.</span>
