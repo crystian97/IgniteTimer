@@ -21,7 +21,7 @@ interface CyclesContextType{
   activeCycle:Cycle|undefined,
   activeCycleId:string | null,
   amountSecondsPassed:number,
-  setSecondsAmountPassed:(seconds:number)=>void,
+  setSecondsPassed:(seconds:number)=>void,
   markCurrentCycleAsFinished: () => void
 
 }
@@ -100,7 +100,7 @@ return(
   <HomeContainer>
  
   <form onSubmit={handleSubmit(handleCreateNewCycle)} >
-      <CyclesContext.Provider value={{activeCycle,activeCycleId,amountSecondsPassed,setSecondsAmountPassed, markCurrentCycleAsFinished
+      <CyclesContext.Provider value={{activeCycle,activeCycleId,amountSecondsPassed,setSecondsPassed, markCurrentCycleAsFinished
 }}>
       <FormProvider {...newCycleForm}>
         <NewCycleForm/>
