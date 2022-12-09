@@ -47,7 +47,7 @@ export function Home() {
   const {handleSubmit,watch,reset} = newCycleForm
   const activeCycle=cycles.find((cycle)=>cycle.id=== activeCycleId)
 
- function setSecondsPasse(seconds:number){
+ function setSecondsPassed(seconds:number){
   setAmountSecondsPassed(seconds)
 
  }
