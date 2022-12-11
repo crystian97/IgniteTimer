@@ -13,6 +13,7 @@ interface Cycle {
   startDate: Date;
 }
 interface CyclesContextType {
+  cycles:Cycle[];
   activeCycle: Cycle | undefined;
   activeCycleId: string | null;
   amountSecondsPassed: number;
@@ -81,7 +82,8 @@ export function CyclesContextProvider({children}:CycleContextProviderProps) {
       setSecondsPassed,
       markCurrentCycleAsFinished,
       createNewCycle,
-      interruptCurrentCycle
+      interruptCurrentCycle,
+      cycles
     }}
   >{children}</CyclesContext.Provider>
   )
