@@ -58,14 +58,14 @@ export function CyclesContextProvider({children}:CycleContextProviderProps) {
     setCycles((state) => [...state, newCycle]);
     setActiveCycleId(id);
     setAmountSecondsPassed(0);
-    // reset();
+    
   }
 
   function interruptCurrentCycle() {
     setCycles((state) =>
       state.map((cycle) => {
         if (cycle.id === activeCycleId) {
-          return { ...cycle, interruptDate: new Date() };
+          return { ...cycle, interruptedDate: new Date() };
         } else {
           return cycle;
         }
