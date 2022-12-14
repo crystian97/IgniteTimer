@@ -42,6 +42,19 @@ export function CyclesContextProvider({children}:CycleContextProviderProps) {
       }
 
     }
+    if(action.type === 'INTERRUPT_CURRENT_CYCLE'){
+      return {
+        ...state,
+        cycles:state.cycles.map((cycle) => {
+              if (cycle.id === state.activeCycleId) {
+                return { ...cycle, interruptedDate: new Date() };
+              } else {
+                return cycle;
+              }
+            }),
+        activeCycleId:null
+      }
+    }
     return state
   },{
     cycles:[],
@@ -105,7 +118,6 @@ export function CyclesContextProvider({children}:CycleContextProviderProps) {
         activeCycleId,
       },
     })
-    setActiveCycleId(null);
   }
   return(
   <CyclesContext.Provider
